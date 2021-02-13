@@ -12,13 +12,13 @@ public class ScoreScript : MonoBehaviour
     {
         score = GameDirector.getscore();
         scoreText = GameObject.Find("Score").GetComponent<Text>();
-
-        if (score >= 30)
+       
+        if (score >= 25)
         {
             GameObject result = Instantiate(rank[0]) as GameObject;
             result.transform.position = new Vector3(0, 3.7f, 0);
         }
-        else if ((score >= 15) && (score < 30))
+        else if ((score >= 15) && (score < 25))
         {
             　GameObject result = Instantiate(rank[1]) as GameObject;
             result.transform.position = new Vector3(0, 3.7f, 0);
@@ -34,6 +34,6 @@ public class ScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 }

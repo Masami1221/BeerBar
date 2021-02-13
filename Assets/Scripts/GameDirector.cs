@@ -23,7 +23,7 @@ public class GameDirector : MonoBehaviour
     {
         timeLimit -= Time.deltaTime;
         timeText.text = "Time : " + Mathf.FloorToInt(timeLimit).ToString();
-        if (timeLimit == 0)
+        if (timeLimit <= 0)
         {
             SceneManager.LoadScene("ResultScene");
         }
