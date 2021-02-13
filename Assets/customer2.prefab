@@ -106,9 +106,11 @@ MonoBehaviour:
   customer: {fileID: 0}
   currentOrder: 0
   judgments:
-  - {fileID: 4855667264147179946, guid: abf632155f0a14e4c8bb58b8ca565fcb, type: 3}
-  - {fileID: 3817310445804525809, guid: 8a0b95bd5f3d64a7aade08b940579118, type: 3}
   - {fileID: 4165678253174874069, guid: 5816a35ca093045818cbf7991f8e751d, type: 3}
+  - {fileID: 2508759666088230377, guid: 35d7851d6d62d4015818c7036bd12d05, type: 3}
+  - {fileID: 3817310445804525809, guid: 8a0b95bd5f3d64a7aade08b940579118, type: 3}
+  - {fileID: 4855667264147179946, guid: abf632155f0a14e4c8bb58b8ca565fcb, type: 3}
+  orderTime: 0
 --- !u!61 &8651180737579698083
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -133,5 +135,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8, y: 8}
+  m_Size: {x: 5, y: 4}
   m_EdgeRadius: 0

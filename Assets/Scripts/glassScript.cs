@@ -11,11 +11,12 @@ public class glassScript : MonoBehaviour
     public Sprite half;
     public Sprite full;
     public Sprite defaultSprite; //空のグラスのこと？
-    float elapsedtime=0;
-    float timeLimit = 3;
+    float elapsedtime= 0;
+    float timeLimit = 1;
     private bool isEmpty = true;
     private bool isHalf = false;
     private bool isFull = false;
+    public GameObject mistake;
     [SerializeField] //インスペクターウィンドウで編集できるようにする
     public int BeerType;
     private Vector3 defaultPos; //グラスの最初の位置
@@ -23,16 +24,21 @@ public class glassScript : MonoBehaviour
     const float resetLimit = 1.0f;　//const：定数を与える。プログラム処理中に変更しないため
     bool isReset = false;
     private GameDirector gameDirector; //スコアを表示する
+    bool isMiss = false;
+    float displayMissTime = 0f;
+    float displayMissLimit = 1.0f; 
+    GameObject miss;
 
     void Start()
     {
+        gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
         defaultPos = transform.position;
         MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         switch (BeerType)  
         {　  //switch-case文: 式の結果と値が一致した時に処理が行なわれる
             case 1:// ピルスナー　
-                Debug.Log(BeerType);
+                //Debug.Log(BeerType);
                 half = Resources.Load<Sprite>("pilsner.half");　//Resourcesフォルダの中にあるSprite画像を読み込む
                 full = Resources.Load<Sprite>("pilsner.full");
                 break;　//処理を抜ける
@@ -100,6 +106,16 @@ public class glassScript : MonoBehaviour
             isFull = true;
         }
        }
+       if (isMiss)
+       {
+           displayMissTime += Time.deltaTime;
+           if (displayMissTime > displayMissLimit)
+           {
+               isMiss = false;
+               Destroy(miss);
+               displayMissTime = 0;
+           }
+       }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -112,31 +128,13 @@ public class glassScript : MonoBehaviour
                 isEmpty = false;
                 isHalf = true;
             } else {
-                transform.position = defaultPos;
                 isReset = true;
                 resetTime = .0f;
-            }    
-
-            //var objectName = other.gameObject.name;
-                // if (objectName == "4") {
-                //currentBeer = 0;
-                //} 
-                //else if (objectName == "2") {
-                //currentBeer = 1;
-                //}
-                //else if (objectName == "3") {
-                //currentBeer = 2;
-                //} 
-                //else if (objectName == "5") {
-                //currentBeer = 3;
-                //}
-                //else if (objectName == "6") {
-                //currentBeer = 4;
-                //}
-                //else if (objectName == "1") {
-                //currentBeer = 5;
-            //}
-            
+                miss = Instantiate(mistake) as GameObject;
+                miss.transform.position = transform.position;
+                transform.position = defaultPos;   
+                isMiss = true;
+            }        
         }
         
         if (isFull)
@@ -146,15 +144,34 @@ public class glassScript : MonoBehaviour
             {
                  if (go.GetComponent<CustomerController1>().currentOrder + 1 == BeerType)//客の注文と合っているか確認
                 {
-                    go.GetComponent<CustomerController1>().displayResult(true);
-                    gameDirector.ScoreUp();// 正解
+                    float orderTime = go.GetComponent<CustomerController1>().orderTime;
+                    int successLevel = 0;
+                    if (orderTime < 5)
+                    {
+                        successLevel = 3;
+                    }
+                    else if (orderTime < 7)
+                    {
+                        successLevel = 2;
+                    }
+                    else {
+                        successLevel = 1;
+                    }
+                    gameDirector.ScoreUp(successLevel);// 正解
+                    go.GetComponent<CustomerController1>().displayResult(true, successLevel);
+                    GameObject director = GameObject.Find("GameDirector");
+                    director.GetComponent<GameDirector>().ScoreUp(successLevel);//正解した事をGameDirectorに伝える
+                    
                 }
                 else
                 {
-                    // 不正解
-                    gameDirector.ScoreDown();
+                    int successLevel = 0;
+                    go.GetComponent<CustomerController1>().displayResult(false, successLevel);
+                    GameObject director = GameObject.Find("GameDirector");
+                    director.GetComponent<GameDirector>().ScoreDown();
+                    gameDirector.ScoreDown();// 不正解
                 }
-                Destroy(go);
+                //Destroy(go);
                 // 初期化
                 MainSpriteRenderer.sprite = defaultSprite;
                 transform.position = defaultPos;
