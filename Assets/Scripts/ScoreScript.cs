@@ -11,19 +11,20 @@ public class ScoreScript : MonoBehaviour
     void Start()
     {
         score = GameDirector.getscore();
-        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        scoreText = GameObject.Find("Score text").GetComponent<Text>();
+        scoreText.text = score.ToString ();
        
-        if (score >= 25)
+        if (score >= 40)
         {
             GameObject result = Instantiate(rank[0]) as GameObject;
             result.transform.position = new Vector3(0, 3.7f, 0);
         }
-        else if ((score >= 15) && (score < 25))
+        else if ((score >= 20) && (score < 40))
         {
             　GameObject result = Instantiate(rank[1]) as GameObject;
             result.transform.position = new Vector3(0, 3.7f, 0);
         }
-        else if (score < 15)   
+        else if (score < 20)   
         {
             GameObject result = Instantiate(rank[2]) as GameObject;
             result.transform.position = new Vector3(0, 3.7f, 0);

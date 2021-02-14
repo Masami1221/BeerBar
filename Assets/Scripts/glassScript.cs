@@ -12,7 +12,7 @@ public class glassScript : MonoBehaviour
     public Sprite full;
     public Sprite defaultSprite; //空のグラスのこと？
     float elapsedtime= 0;
-    float timeLimit = 1;
+    float timeLimit = 2;
     private bool isEmpty = true;
     private bool isHalf = false;
     private bool isFull = false;
@@ -127,6 +127,7 @@ public class glassScript : MonoBehaviour
                 MainSpriteRenderer.sprite = half;　//サーバーに置いたらグラスにビールが半分入る
                 isEmpty = false;
                 isHalf = true;
+                GetComponent<AudioSource>().Play();
             } else {
                 isReset = true;
                 resetTime = .0f;
