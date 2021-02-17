@@ -8,6 +8,7 @@ public class ButtonScript : MonoBehaviour
     public void ReplayGame()
     {
         SceneManager.LoadScene("GameScene");
+        GetComponent<AudioSource>().Play();
     }
         void Start()
     {

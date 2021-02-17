@@ -17,6 +17,7 @@ public class StartScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             SceneManager.LoadScene("GameScene");
+            GetComponent<AudioSource>().Play();
         }
     }
 }

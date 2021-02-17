@@ -119,6 +119,9 @@ public class glassScript : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (isReset)
+        return;
+        
         if (isEmpty)
         {
             string strBeerType = BeerType.ToString(); //ToString()でintなどを文字列に変換する。
@@ -151,14 +154,14 @@ public class glassScript : MonoBehaviour
                     {
                         successLevel = 3;
                     }
-                    else if (orderTime < 7)
+                    else if (orderTime < 8)
                     {
                         successLevel = 2;
                     }
                     else {
                         successLevel = 1;
                     }
-                    gameDirector.ScoreUp(successLevel);// 正解
+                    //gameDirector.ScoreUp(successLevel);// 正解
                     go.GetComponent<CustomerController1>().displayResult(true, successLevel);
                     GameObject director = GameObject.Find("GameDirector");
                     director.GetComponent<GameDirector>().ScoreUp(successLevel);//正解した事をGameDirectorに伝える
@@ -170,7 +173,7 @@ public class glassScript : MonoBehaviour
                     go.GetComponent<CustomerController1>().displayResult(false, successLevel);
                     GameObject director = GameObject.Find("GameDirector");
                     director.GetComponent<GameDirector>().ScoreDown();
-                    gameDirector.ScoreDown();// 不正解
+                    //gameDirector.ScoreDown();// 不正解
                 }
                 //Destroy(go);
                 // 初期化
